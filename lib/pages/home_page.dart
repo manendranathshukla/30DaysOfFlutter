@@ -41,14 +41,32 @@ class _HomePageState extends State<HomePage> {
         title: Text("MyCodeWorks"),
       ),
       body: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
-          ? ListView.builder(
+          ? GridView.builder(
               itemCount: CatalogModel.items.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, mainAxisSpacing: 16, crossAxisSpacing: 16),
               itemBuilder: (context, index) {
-                return ItemWidget(
-                  item: CatalogModel.items[index],
+                final item = CatalogModel.items[index];
+                return Card(
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: GridTile(
+                    header: Container(child: Text(item.name)),
+                    child: Image.network(item.image),
+                    footer: Text(item.price.toString()),
+                  ),
                 );
               },
             )
+          // ? ListView.builder(
+          //     itemCount: CatalogModel.items.length,
+          //     itemBuilder: (context, index) {
+          //       return ItemWidget(
+          //         item: CatalogModel.items[index],
+          //       );
+          //     },
+          //   )
           : Center(
               child: CircularProgressIndicator(),
             ),
